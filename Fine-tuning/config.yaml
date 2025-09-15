@@ -1,0 +1,78 @@
+
+# ==========================
+# Thesis ASR Training Config
+# ==========================
+
+# -------- Model --------
+# Pretrained NeMo checkpoint to fine-tune.
+# Examples:
+#   - stt_it_conformer_ctc_large   (Italian Conformer-CTC BPE)
+#   - QuartzNet15x5Base-En         (English CTC)
+name: "stt_it_conformer_ctc_large"
+
+# One of: "conformer", "quartznet"
+loader: "conformer"
+
+
+# -------- Paths --------
+# Adjust these to your environment.
+paths:
+  base_dir: "/data/speech-project/datasets/"
+  collected_dataset: "/data/speech-project/datasets/collected_dataset"   # must contain dataset.csv
+  synthesized_dataset: "/data/speech-project/datasets/tts_synthesized"
+  output_dir: "/data/nemo_out"
+
+
+
+# -------- Data options --------
+# Input audio sample rate used to compute durations for manifests.
+sample_rate: 16000
+
+# Normalize transcripts (lowercase + strip punctuation) when writing manifests.
+normalize_text: true
+
+# If true, re-create manifests even if files already exist.
+force_reprocess: false
+
+
+# -------- Augmentation --------
+# Master toggle for on-the-fly perturbations during training.
+use_augmentation: false
+
+
+# -------- Training --------
+# Global batch size per device.
+batch_size: 16
+
+# Max audio duration (seconds) for train/val examples considered by NeMo loaders.
+max_train_duration: 10.0
+max_val_duration: 20.0
+
+# DataLoader workers.
+num_workers: 8
+
+# Optimizer hyperparameters.
+learning_rate: 1.0e-5
+weight_decay: 1.0e-3
+
+# Training length & early stopping.
+min_epochs: 40
+max_epochs: 60
+patience: 20
+
+# Mixed precision or full precision; can be 16, 32, "bf16" depending on hardware.
+precision: 32
+
+# Gradient clipping (value in L2 norm).
+gradient_clip_val: 1.0
+
+# Logging frequency (steps).
+log_every_n_steps: 300
+
+# Deterministic seeding.
+seed: 42
+
+
+# -------- Sampling / Oversampling --------
+# How many times each *collected* training sample is duplicated in the train manifest.
+weight_factor: 40

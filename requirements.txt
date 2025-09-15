@@ -1,0 +1,7 @@
+numpy==1.24.3
+pandas
+omegaconf
+tqdm
+nemo_toolkit[asr]
+wandb
+lightning
