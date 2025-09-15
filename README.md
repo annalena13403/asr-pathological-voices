@@ -71,6 +71,33 @@ requirements.txt
      - Filtered datasets (e.g., `pathological_filtered.csv`).
 ---
 
+---
+
+## Reproducing Experiments from the Thesis
+
+All main experiments described in the thesis can be reproduced using the training script  
+`Fine-tuning/trainer.py`. Experiment settings are adjusted  
+directly in the code (see the `ModelTrainer._load_model` section).
+
+### Steps
+
+1. **Run fine-tuning**
+   - Open `trainer.py` and uncomment the dataset configuration block corresponding to your experiment:
+     - **Collected-only** → use only `collected_train.json` / eval splits.
+     - **Synth-only** → use only `synth_train.json` / eval splits (+ collected eval for reference).
+     - **Combined** → use both `collected_train.json` and `synth_train.json`.
+   - Toggle `use_augmentation=True` in the config to enable perturbation-based augmentation.
+    - Adjust `weight_factor` to oversample real data (e.g., `2` doubles its weight).
+
+2. **For the filtered synthesized data**
+ Follow the steps from the notebooks in the Feature_Extraction_and_Filtering folder.
+      - Extract acoustic features from your synthesized dataset. [Extract Features](Feature_Extraction_and_Filtering/extract_features.ipynb)
+      - Extract acoustic features from your collected dataset. [Extract Features](Feature_Extraction_and_Filtering/extract_features.ipynb)
+      - Train a Random Forest classifier on the collected data and rank features by importance. [Feature Importance & Filtering](Feature_Extraction_and_Filtering/filter_synth_samples.ipynb)
+      - Filter the synthesized dataset using the trained classifier. [Filter Synth Samples](Feature_Extraction_and_Filtering/filter_synth_samples.ipynb)
+
+      - Adjust in the [config.yml](Fine-tuning/config.yaml) the `synthesized_dataset:` config to point to the filtered synthesized    dataset you want to use.
+
 ## Installation
 
 Clone the repo and install dependencies:

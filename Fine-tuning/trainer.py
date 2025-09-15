@@ -64,7 +64,7 @@ class ModelConfig:
     normalize_text: bool = True
     force_reprocess: bool = False
 
-    # --- training ---
+    # --- fine-tuning ---
     batch_size: int = 16
     max_train_duration: float = 10.0
     max_val_duration: float = 20.0
@@ -295,7 +295,7 @@ class CollectedDatasetBuilder(BaseDatasetBuilder):
 
 
 # ---------------------------------------------------------------------
-# Training
+# fine-tuning
 # ---------------------------------------------------------------------
 class ModelTrainer:
     def __init__(self, cfg: ModelConfig):
@@ -377,6 +377,34 @@ class ModelTrainer:
         train_cfg = copy.deepcopy(model.cfg.train_ds)
         val_cfg = copy.deepcopy(model.cfg.validation_ds)
 
+# =============================================================================
+        # for fine-tuning only on collected data, comment out the next lines
+# =============================================================================
+        # train_cfg.manifest_filepath = [
+        #     self.collected["train"],
+        # ]
+        # val_cfg.manifest_filepath = [
+        #     self.collected["eval"],
+        #     self.collected["healthy_eval"],
+        #     self.collected["pathological_eval"],
+        # ]
+
+# =============================================================================
+        # for fine-tuning only on synthesized data, comment out the next lines
+# =============================================================================
+        # train_cfg.manifest_filepath = [
+        #     self.synth["train"],
+        # ]
+        # val_cfg.manifest_filepath = [
+        #     self.collected["eval"],
+        #     self.collected["healthy_eval"],
+        #     self.collected["pathological_eval"],
+        #     self.synth["eval"],
+        # ]
+
+# ===========================================================================================
+        # for fine-tuning only on synthesized and collected data, comment out the next lines
+# ===========================================================================================
         train_cfg.manifest_filepath = [
             self.collected["train"],
             self.synth["train"],
@@ -385,6 +413,7 @@ class ModelTrainer:
             self.collected["eval"],
             self.collected["healthy_eval"],
             self.collected["pathological_eval"],
+            self.synth["eval"],
         ]
 
         for ds in (train_cfg, val_cfg):
@@ -392,7 +421,7 @@ class ModelTrainer:
             ds.num_workers = self.cfg.num_workers
             ds.pin_memory = True
 
-        # training overrides
+        # fine-tuning overrides
         train_cfg.batch_size = self.cfg.batch_size
         train_cfg.shuffle = True
         OmegaConf.set_struct(train_cfg, False)
@@ -467,7 +496,7 @@ class ModelTrainer:
 
         final_path = os.path.join(self.cfg.output_dir, "final_model.nemo")
         model.save_to(final_path)
-        print("Training finished.")
+        print("fine-tuning finished.")
 
 
 # ---------------------------------------------------------------------
