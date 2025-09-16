@@ -100,8 +100,8 @@ All main experiments described in the thesis can be reproduced using the trainin
 Clone the repo and install dependencies:
 
 ```bash
-git clone <repo-url>
-cd <repo>
+git clone https://github.com/annalena13403/asr-pathological-voices
+cd asr-pathological-voices
 pip install -r requirements.txt
 ```
 ---
