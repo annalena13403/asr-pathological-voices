@@ -89,8 +89,8 @@ All main experiments described in the thesis can be reproduced using the trainin
       - Follow the steps from the notebooks in the Feature_Extraction_and_Filtering folder.
       - Extract acoustic features from your synthesized dataset. [Extract Features](Feature_Extraction_and_Filtering/extract_features.ipynb)
       - Extract acoustic features from your collected dataset. [Extract Features](Feature_Extraction_and_Filtering/extract_features.ipynb)
-      - Train a Random Forest classifier on the collected data and rank features by importance. [Feature Importance & Filtering](Feature_Extraction_and_Filtering/filter_synth_samples.ipynb)
-      - Filter the synthesized dataset using the trained classifier. [Filter Synth Samples](Feature_Extraction_and_Filtering/filter_synth_samples.ipynb)
+      - Train a Random Forest classifier on the collected data and rank features by importance. [Feature Importance & Filtering](Feature_Extraction_and_FIltering/filter_synth_samples.ipynb)
+      - Filter the synthesized dataset using the trained classifier. [Filter Synth Samples](Feature_Extraction_and_FIltering/filter_synth_samples.ipynb)
 
       - Adjust in the [config.yml](Fine-tuning/config.yaml) the `synthesized_dataset:` config to point to the filtered synthesized    dataset you want to use.
 
